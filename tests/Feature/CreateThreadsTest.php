@@ -15,7 +15,7 @@ class CreateThreadsTest extends TestCase
     {
         parent::setUp();
 
-        $this->thread = factory('App\Thread')->make();
+        $this->thread = make('App\Thread');
     }
 
     /**
@@ -33,7 +33,7 @@ class CreateThreadsTest extends TestCase
      */
     public function authenticated_user_can_create_new_threads()
     {
-        $this->actingAs( factory('App\User')->create() );
+        $this->singIn();
 
         $this->post('/threads', $this->thread->toArray());
 

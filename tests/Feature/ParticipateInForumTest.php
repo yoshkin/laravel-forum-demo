@@ -10,12 +10,15 @@ class ParticipateInForumTest extends TestCase
     use DatabaseMigrations;
 
     protected $thread;
+    protected $reply;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->thread = factory('App\Thread')->create();
+        $this->thread = create('App\Thread');
+        $this->reply = make('App\Reply');
+
     }
 
     /**
@@ -25,9 +28,7 @@ class ParticipateInForumTest extends TestCase
     {
         $this->expectException('Illuminate\Auth\AuthenticationException');
 
-        $reply = factory('App\Reply')->make();
-
-        $this->post($this->thread->path() . '/replies', $reply->toArray());
+        $this->post($this->thread->path() . '/replies', $this->reply->toArray());
     }
     
     /**
@@ -35,13 +36,11 @@ class ParticipateInForumTest extends TestCase
      */
     public function authenticated_user_can_participate_in_forum_threads()
     {
-        $this->be($user = factory('App\User')->create());
+        $this->singIn();
 
-        $reply = factory('App\Reply')->make();
-
-        $this->post($this->thread->path() . '/replies', $reply->toArray());
+        $this->post($this->thread->path() . '/replies', $this->reply->toArray());
 
         $this->get($this->thread->path())
-            ->assertSee($reply->body);
+            ->assertSee($this->reply->body);
     }
 }

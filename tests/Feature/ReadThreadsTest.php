@@ -50,7 +50,7 @@ class ReadThreadsTest extends TestCase
      */
     public function user_can_view_replies_of_the_single_thread()
     {
-        $reply = factory('App\Reply')->create(['thread_id' => $this->thread->id]);
+        $reply = create('App\Reply', ['thread_id' => $this->thread->id]);
 
         $this->get($this->thread->path())
             ->assertSee($reply->body);

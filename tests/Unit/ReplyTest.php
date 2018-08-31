@@ -15,7 +15,7 @@ class ReplyTest extends TestCase
      */
     public function reply_has_user()
     {
-        $reply = factory('App\Reply')->create();
+        $reply = create('App\Reply');
 
         $this->assertInstanceOf('App\User', $reply->user);
     }
