@@ -9,25 +9,20 @@ class CreateThreadsTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected $thread;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->thread = make('App\Thread');
-    }
-
     /**
      * @test
      */
     public function unauthenticated_user_can_not_create_new_threads()
     {
-        $this->expectException('Illuminate\Auth\AuthenticationException');
+        $this->withExceptionHandling();
 
-        $this->post('/threads', $this->thread->toArray());
+        $this->get('/threads/create')
+            ->assertRedirect('/login');
+
+        $this->post('/threads')
+            ->assertRedirect('/login');
     }
-    
+
     /**
      * @test
      */
@@ -35,20 +30,44 @@ class CreateThreadsTest extends TestCase
     {
         $this->singIn();
 
-        $this->post('/threads', $this->thread->toArray());
+        $thread = make('App\Thread');
+        $response = $this->post('/threads', $thread->toArray());
 
-        $this->get($this->thread->path())
-            ->assertSee($this->thread->title)
-            ->assertSee($this->thread->body);
+        $this->get($response->headers->get('Location'))
+            ->assertSee($thread->title)
+            ->assertSee($thread->body);
     }
 
     /**
      * @test
      */
-    public function unauthenticated_user_can_not_view_create_thread_page()
+    public function thread_storing_requires_title_field()
     {
-        $this->withExceptionHandling()
-            ->get('/threads/create')
-            ->assertRedirect('/login');
+        $this->storeThread(['title'=>null])
+            ->assertSessionHasErrors('title');
+    }
+    /**
+     * @test
+     */
+    public function thread_storing_requires_body_field()
+    {
+        $this->storeThread(['body'=>null])
+            ->assertSessionHasErrors('body');
+    }
+    /**
+     * @test
+     */
+    public function thread_storing_requires_category_id_field()
+    {
+        $this->storeThread(['category_id'=>null])
+            ->assertSessionHasErrors('category_id');
+    }
+
+    public function storeThread($attributes = [])
+    {
+        $this->withExceptionHandling()->singIn();
+        $thread = make('App\Thread', $attributes);
+
+        return $this->post('/threads', $thread->toArray());
     }
 }

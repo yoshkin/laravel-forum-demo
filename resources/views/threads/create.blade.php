@@ -16,6 +16,14 @@
                                 <input type="text" class="form-control" name="title" id="title" placeholder="Input title">
                             </div>
                             <div class="form-group">
+                                <label for="category_id">Category</label>
+                                <select class="form-control" name="category_id" id="category_id">
+                                    @foreach( $categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="body">Content</label>
                                 <textarea type="text" name="body" class="form-control" id="body" rows="5" placeholder="Your thread text..."></textarea>
                             </div>

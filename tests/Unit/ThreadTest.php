@@ -15,9 +15,24 @@ class ThreadTest extends TestCase
     {
         parent::setUp();
 
-        $this->thread = factory('App\Thread')->create();
+        $this->thread = create('App\Thread');
     }
-    
+
+    /**
+     * @test
+     */
+    public function thread_instance_have_correct_path()
+    {
+        $this->assertEquals("/threads/{$this->thread->category->slug}/{$this->thread->id}", $this->thread->path());
+    }
+    /**
+     * @test
+     */
+    public function thread_has_an_author()
+    {
+        $this->assertInstanceOf('App\User', $this->thread->author);
+    }
+
     /**
      * @test
      */
@@ -25,13 +40,13 @@ class ThreadTest extends TestCase
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->thread->replies);
     }
-    
+
     /**
      * @test
      */
-    public function thread_has_an_author()
+    public function thread_belongs_to_category()
     {
-        $this->assertInstanceOf('App\User', $this->thread->author);
+        $this->assertInstanceOf('App\Category',$this->thread->category);
     }
 
     /**

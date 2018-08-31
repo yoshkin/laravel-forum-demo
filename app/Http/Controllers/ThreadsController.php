@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Thread;
 use Illuminate\Http\Request;
 
@@ -31,7 +32,9 @@ class ThreadsController extends Controller
      */
     public function create()
     {
-        return view('threads.create');
+        $categories = Category::all();
+
+        return view('threads.create', compact('categories'));
     }
 
     /**
@@ -42,8 +45,15 @@ class ThreadsController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'title' => 'required',
+            'body' => 'required',
+            'category_id' => 'required'
+        ]);
+
         $thread = Thread::create([
             'user_id' => auth()->id(),
+            'category_id' => $request->get('category_id'),
             'title' => $request->get('title'),
             'body' => $request->get('body')
         ]);
@@ -51,13 +61,13 @@ class ThreadsController extends Controller
         return redirect($thread->path());
     }
 
+
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Thread  $thread
-     * @return Thread
+     * @param $categorySlug
+     * @param Thread $thread
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show(Thread $thread)
+    public function show($categorySlug, Thread $thread)
     {
         return view('threads.show', compact('thread'));
     }
