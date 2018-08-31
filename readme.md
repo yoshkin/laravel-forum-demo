@@ -14,34 +14,34 @@ Please treat with understanding that is just Forum Demo Application covered by T
 - VueJS on frontend
 
 
-##Tests (temp info)
+## Tests (temp info)
 
 Feature\CreateThreads
-- [x] Unauthenticated user can not create new threads
-- [x] Authenticated user can create new threads
-- [x] Thread storing requires title field
-- [x] Thread storing requires body field
-- [x] Thread storing requires category id field
+- ✔ Unauthenticated user can not create new threads
+- ✔ Authenticated user can create new threads
+- ✔ Thread storing requires title field
+- ✔ Thread storing requires body field
+- ✔ Thread storing requires category id field
 
 Feature\ParticipateInForum
-- [x] Unauthenticated user can not add reply
-- [x] Authenticated user can participate in forum threads
+- ✔ Unauthenticated user can not add reply
+- ✔ Authenticated user can participate in forum threads
 
 Feature\ReadThreads
-- [x] User can access threads page
-- [x] User can view threads titles
-- [x] User can view single thread
-- [x] User can view replies of the single thread
+- ✔ User can access threads page
+- ✔ User can view threads titles
+- ✔ User can view single thread
+- ✔ User can view replies of the single thread
 
 Unit\Reply
-- [x] Reply has user
+- ✔ Reply has user
 
 Unit\Thread
-- [x] Thread instance have correct path
-- [x] Thread has an author
-- [x] Thread has replies
-- [x] Thread belongs to category
-- [x] Reply can be added to thread
+- ✔ Thread instance have correct path
+- ✔ Thread has an author
+- ✔ Thread has replies
+- ✔ Thread belongs to category
+- ✔ Reply can be added to thread
 
 OK (17 tests, 25 assertions)
 
