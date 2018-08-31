@@ -57,9 +57,14 @@ class CreateThreadsTest extends TestCase
     /**
      * @test
      */
-    public function thread_storing_requires_category_id_field()
+    public function thread_storing_requires_existing_valid_category_id_field()
     {
+        factory('App\Category', 2)->create();
+
         $this->storeThread(['category_id'=>null])
+            ->assertSessionHasErrors('category_id');
+
+        $this->storeThread(['category_id'=>10])
             ->assertSessionHasErrors('category_id');
     }
 

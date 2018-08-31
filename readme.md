@@ -21,11 +21,12 @@ Feature\CreateThreads
 - ✔ Authenticated user can create new threads
 - ✔ Thread storing requires title field
 - ✔ Thread storing requires body field
-- ✔ Thread storing requires category id field
+- ✔ Thread storing requires existing valid category id field
 
 Feature\ParticipateInForum
 - ✔ Unauthenticated user can not add reply
 - ✔ Authenticated user can participate in forum threads
+- ✔ Reply storing requires body field
 
 Feature\ReadThreads
 - ✔ User can access threads page
@@ -43,7 +44,7 @@ Unit\Thread
 - ✔ Thread belongs to category
 - ✔ Reply can be added to thread
 
-OK (17 tests, 25 assertions)
+OK (18 tests, 29 assertions)
 
 
 ## License
